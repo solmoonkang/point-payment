@@ -30,7 +30,6 @@ export function AdminLoginPage({ onDone }: { onDone: () => void }) {
       <button className="btn" style={{ marginTop: 18 }} disabled={!adminId || !password}>
         로그인
       </button>
-      <p className="hint">로컬 계정: admin / admin1234</p>
     </form>
   )
 }

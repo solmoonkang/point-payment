@@ -6,7 +6,6 @@ import { createSessionStore } from '../utils/session.js'
 // 회원 화면을 쓰는 사람: 제로페이에서 넘어왔으면 제로페이 회원 번호, 킵페이 가입을 마쳤으면 킵페이 회원 번호
 export interface Visitor {
   zeropayMemberId?: string
-  zeropayName?: string
   memberId?: string
 }
 

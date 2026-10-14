@@ -24,7 +24,7 @@ export function createServices(): Services {
 
   const product = createProductService({ products: createFixedProductRepository() })
   const member = createMemberService({ members: createMemoryMemberRepository(), zeropay })
-  const order = createOrderService({ orders: createMemoryOrderRepository(), products: product, zeropay, pg, publicUrl: env.PUBLIC_URL })
+  const order = createOrderService({ orders: createMemoryOrderRepository(), products: product, zeropay, pg })
   const admin = createAdminService({ adminId: env.ADMIN_ID, adminPassword: env.ADMIN_PASSWORD, order, member, pg })
 
   return { product, member, order, admin }

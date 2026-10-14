@@ -1,4 +1,4 @@
-import { zLinkExchangeRequest, zLinkExchangeResponse } from '@point-payment/contract'
+import { zMemberVerifyRequest, zMemberVerifyResponse } from '@point-payment/contract'
 import type { RequestHandler } from 'express'
 import { z } from 'zod'
 import { memberSessions } from '../../middlewares/memberAuth.js'
@@ -7,7 +7,7 @@ import type { MemberService } from './member.service.js'
 
 const zLoginRequest = z.object({ loginId: z.string().min(1), password: z.string().min(1) })
 
-export function createMemberController(member: MemberService, voucher: VoucherService) {
+export function createMemberController(member: MemberService, voucher: VoucherService, keepayUrl: string) {
   const login: RequestHandler = (request, response) => {
     const { loginId, password } = zLoginRequest.parse(request.body)
     const loggedIn = member.login(loginId, password)
@@ -22,21 +22,16 @@ export function createMemberController(member: MemberService, voucher: VoucherSe
 
   const me: RequestHandler = (_request, response) => {
     const memberId = response.locals.memberId as string
-    response.json({ member: member.get(memberId), ...voucher.balance(memberId) })
+    response.json({ member: member.get(memberId), ...voucher.balance(memberId), keepayUrl })
   }
 
-  const link: RequestHandler = (_request, response) => {
-    response.json({ url: member.issueLinkUrl(response.locals.memberId as string) })
-  }
-
-  const exchange: RequestHandler = (request, response) => {
-    const { code } = zLinkExchangeRequest.parse(request.body)
-    response.json(zLinkExchangeResponse.parse(member.exchange(code)))
+  const verify: RequestHandler = (request, response) => {
+    response.json(zMemberVerifyResponse.parse(member.verify(zMemberVerifyRequest.parse(request.body))))
   }
 
   const list: RequestHandler = (_request, response) => {
     response.json({ members: member.list() })
   }
 
-  return { login, logout, me, link, exchange, list }
+  return { login, logout, me, verify, list }
 }

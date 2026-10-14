@@ -1,33 +1,14 @@
 // 예시 1 보험 선택
-import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation, useSearch } from 'wouter'
-import { messageOf, sessionApi } from '../api'
+import { Link } from 'wouter'
 import { SiteFrame } from '../components/SiteFrame'
 
 export function PickPage() {
-  const search = useSearch()
-  const [, navigate] = useLocation()
-  const [error, setError] = useState('')
-  const exchanged = useRef(false)
-
-  // 제로페이 링크의 일회용 값은 한 번만 교환되므로, 개발 모드에서 effect 가 두 번 돌아도 한 번만 보냄
-  useEffect(() => {
-    const code = new URLSearchParams(search).get('code')
-    if (!code || exchanged.current) return
-    exchanged.current = true
-    sessionApi.link(code).then(
-      () => navigate('/', { replace: true }),
-      (failure: unknown) => setError(`제로페이 회원 연결 실패: ${messageOf(failure)}`),
-    )
-  }, [search, navigate])
-
   return (
     <SiteFrame>
       <div className="body pick" style={{ paddingBottom: 24 }}>
         <span className="pill">튼튼머니 포인트로 가입 가능</span>
         <h4>어떤 보험에 가입하시겠어요?</h4>
         <p>필요한 보장을 선택하고 몇 분 만에 가입을 완료하세요.</p>
-        {error && <p className="err">{error}</p>}
         <div className="plans">
           <div className="plan">
             <img src="/images/gym.jpg" alt="헬스장 사진" />

@@ -17,8 +17,8 @@ export function createServices(): Services {
   const members = createMemoryMemberRepository()
 
   return {
-    member: createMemberService({ members, keepayUrl: env.KEEPAY_URL }),
-    voucher: createVoucherService({ vouchers: createMemoryVoucherRepository(), members, publicUrl: env.PUBLIC_URL }),
+    member: createMemberService({ members }),
+    voucher: createVoucherService({ vouchers: createMemoryVoucherRepository(), members }),
     admin: createAdminService({ adminId: env.ADMIN_ID, adminPassword: env.ADMIN_PASSWORD }),
   }
 }

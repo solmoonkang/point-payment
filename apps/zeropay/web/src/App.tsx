@@ -3,14 +3,12 @@ import { AdminGate } from './components/AdminGate'
 import { AdminGrantPage } from './pages/AdminGrantPage'
 import { AdminHistoryPage } from './pages/AdminHistoryPage'
 import { AdminSettingsPage } from './pages/AdminSettingsPage'
-import { ApprovePage } from './pages/ApprovePage'
 import { StartPage } from './pages/StartPage'
 
 export function App() {
   return (
     <Switch>
       <Route path="/" component={StartPage} />
-      <Route path="/approve/:usageId" component={ApprovePage} />
       <Route path="/admin">
         <AdminGate>
           <AdminHistoryPage />

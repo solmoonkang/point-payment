@@ -1,12 +1,12 @@
 // point: 상품권 먼저, 모자라면 PG · card: PG 만
 export type PayMethod = 'point' | 'card'
 
-// awaiting_approval: 제로페이 회원 승인 대기 · cancel_failed: 되돌리기 미완료 (다시 취소하면 남은 쪽만 처리)
-export type OrderStatus = 'pending' | 'awaiting_approval' | 'paid' | 'failed' | 'cancelled' | 'cancel_failed'
+// cancel_failed: 되돌리기 미완료 (다시 취소하면 남은 쪽만 처리)
+export type OrderStatus = 'pending' | 'paid' | 'failed' | 'cancelled' | 'cancel_failed'
 
 export interface Order {
   id: number // 가입자 리스트의 #, 제로페이에는 가맹점 주문 번호로 보냄
-  requestId: string // 화면이 만든 값. 제로페이 사용 요청에도 같은 값을 씀
+  requestId: string // 화면이 만든 멱등키 (결제 버튼을 두 번 눌러도 주문 하나)
   memberId: string
   productId: string
   planId: string
@@ -19,7 +19,6 @@ export interface Order {
   method: PayMethod
   status: OrderStatus
   failReason: string | null
-  usageId: string | null
   approvalNo: string | null
   pgTxId: string | null
   pointRestored: boolean // 되돌리기를 단계마다 기록해, 중간에 실패해도 남은 쪽만 다시 하려고 둠
@@ -39,5 +38,4 @@ export interface Quote {
 
 export interface PayResult {
   order: Order
-  approvalUrl: string | null // 승인 대기일 때만
 }

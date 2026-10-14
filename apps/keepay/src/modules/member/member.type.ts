@@ -8,7 +8,7 @@ export interface Agreements {
 
 export interface Member {
   id: string
-  zeropayMemberId: string | null // 제로페이에서 넘어오지 않았으면 null
+  zeropayMemberId: string | null // 일치하는 제로페이 회원이 없으면 null (카드 결제만 가능)
   name: string
   birth: string // YYYYMMDD
   phone: string

@@ -27,9 +27,9 @@ export function createOrderController(order: OrderService) {
     response.json(await order.pay({ ...input, memberId: visitor.memberId, zeropayMemberId: visitor.zeropayMemberId ?? null, ip: request.ip ?? '-' }))
   }
 
-  const confirm: RequestHandler = async (request, response) => {
-    response.json(await order.confirm(Number(request.params.orderId), visitorOf(response.locals).memberId))
+  const get: RequestHandler = (request, response) => {
+    response.json({ order: order.get(Number(request.params.orderId), visitorOf(response.locals).memberId) })
   }
 
-  return { quote, pay, confirm }
+  return { quote, pay, get }
 }

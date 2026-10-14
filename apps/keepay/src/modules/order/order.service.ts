@@ -1,7 +1,6 @@
-// 같은 요청 번호면 주문 하나. 같은 주문의 처리가 겹치면 하나만 돌고 나머지는 그 결과를 기다림 (결제 확인이 겹쳐 PG 가 두 번 결제되지 않게)
+// 같은 요청 번호면 주문 하나. 같은 결제 요청이 겹치면 하나만 돌고 나머지는 그 결과를 기다림 (PG 가 두 번 결제되지 않게)
 // PG 가 실패하면 이미 승인된 상품권 사용을 취소함
 // 되돌리기는 단계마다 기록함 (중간에 실패하면 「취소 미완료」로 남고, 다시 취소하면 남은 쪽만 처리)
-import type { RejectReason, Usage } from '@point-payment/contract'
 import type { PgClient } from '../../infrastructure/pg/index.js'
 import type { ZeropayClient } from '../../infrastructure/zeropay/index.js'
 import { ErrorCode } from '../../utils/error-code.js'
@@ -25,19 +24,13 @@ export interface PayInput {
 export interface OrderService {
   quote(input: { zeropayMemberId: string | null; productId: string; planId: string; method: PayMethod }): Promise<Quote>
   pay(input: PayInput): Promise<PayResult>
-  confirm(orderId: number, memberId: string): Promise<PayResult> // 제로페이 승인 화면에서 돌아온 뒤
+  get(orderId: number, memberId: string): Order
   cancel(orderId: number): Promise<Order>
   list(): Order[]
 }
 
-const REJECT_TEXT: Record<RejectReason, string> = {
-  insufficient: '상품권 잔액이 부족합니다',
-  expired: '상품권이 만료되었습니다',
-  declined: '제로페이에서 결제를 거절했습니다',
-}
-
-export function createOrderService(dependencies: { orders: OrderRepository; products: ProductService; zeropay: ZeropayClient; pg: PgClient; publicUrl: string; now?: () => Date }): OrderService {
-  const { orders, products, zeropay, pg, publicUrl, now = () => new Date() } = dependencies
+export function createOrderService(dependencies: { orders: OrderRepository; products: ProductService; zeropay: ZeropayClient; pg: PgClient; now?: () => Date }): OrderService {
+  const { orders, products, zeropay, pg, now = () => new Date() } = dependencies
   const running = new Map<string, Promise<unknown>>()
 
   return {
@@ -45,9 +38,10 @@ export function createOrderService(dependencies: { orders: OrderRepository; prod
 
     pay: (input) => once(`pay:${input.requestId}`, () => startPay(input)),
 
-    async confirm(orderId, memberId) {
-      validateOwner(getOrder(orderId), memberId)
-      return once(`order:${orderId}`, () => confirmApproval(orderId))
+    get(orderId, memberId) {
+      const order = getOrder(orderId)
+      validateOwner(order, memberId)
+      return order
     },
 
     async cancel(orderId) {
@@ -70,7 +64,7 @@ export function createOrderService(dependencies: { orders: OrderRepository; prod
     const existing = orders.findByRequestId(input.requestId)
     if (existing) {
       validateSameRequester(existing, input)
-      return { order: existing, approvalUrl: null }
+      return { order: existing }
     }
 
     const { product, plan } = products.plan(input.productId, input.planId)
@@ -82,33 +76,14 @@ export function createOrderService(dependencies: { orders: OrderRepository; prod
   }
 
   async function requestUsage(order: Order, zeropayMemberId: string): Promise<PayResult> {
-    let usage: Usage
+    let approvalNo: string
     try {
-      usage = await zeropay.createUsage({
-        requestId: order.requestId,
-        memberId: zeropayMemberId,
-        amount: order.pointAmount,
-        merchantOrderId: String(order.id),
-        returnUrl: new URL(`/pay/result/${order.id}`, publicUrl).toString(),
-      })
+      ;({ approvalNo } = await zeropay.createUsage({ memberId: zeropayMemberId, amount: order.pointAmount, merchantOrderId: String(order.id) }))
     } catch (error) {
-      return fail(order, `제로페이 사용 요청 실패: ${(error as Error).message}`)
+      // 견적 뒤 다른 곳에서 써서 잔액이 줄었거나 만료됐으면 여기서 거절됨
+      return fail(order, isPointRejection(error) ? (error as Error).message : `제로페이 사용 요청 실패: ${(error as Error).message}`)
     }
-    // 견적 뒤 다른 곳에서 써서 잔액이 줄었거나 만료됐으면 여기서 거절됨
-    if (usage.status === 'rejected') return fail(order, REJECT_TEXT[usage.rejectReason ?? 'declined'])
-    return { order: orders.update(order.id, { status: 'awaiting_approval', usageId: usage.usageId }), approvalUrl: usage.approvalUrl }
-  }
-
-  async function confirmApproval(orderId: number): Promise<PayResult> {
-    const order = getOrder(orderId)
-    if (order.status !== 'awaiting_approval') return { order, approvalUrl: null }
-
-    // 돌아온 주소에 붙은 값은 믿지 않고 제로페이에 직접 확인
-    const usage = await zeropay.getUsage(order.usageId!)
-    if (usage.status === 'pending') return { order, approvalUrl: usage.approvalUrl }
-    if (usage.status === 'rejected') return fail(order, REJECT_TEXT[usage.rejectReason ?? 'declined'])
-    if (usage.status === 'cancelled') return fail(order, '제로페이 사용 건이 취소되었습니다')
-    return finish(orders.update(order.id, { approvalNo: usage.approvalNo }))
+    return finish(orders.update(order.id, { approvalNo }))
   }
 
   async function finish(order: Order): Promise<PayResult> {
@@ -117,18 +92,18 @@ export function createOrderService(dependencies: { orders: OrderRepository; prod
       if (!charge.ok) return failAfterPoints(order, charge.reason)
       order = orders.update(order.id, { pgTxId: charge.txId })
     }
-    return { order: orders.update(order.id, { status: 'paid', paidAt: stamp() }), approvalUrl: null }
+    return { order: orders.update(order.id, { status: 'paid', paidAt: stamp() }) }
   }
 
   // 되돌리기마저 실패하면 운영자가 다시 시도하도록 「취소 미완료」로 남김
   async function failAfterPoints(order: Order, reason: string): Promise<PayResult> {
     if (!order.approvalNo) return fail(order, reason)
     try {
-      await zeropay.cancelUsage(order.usageId!)
+      await zeropay.cancelUsage(order.approvalNo, '카드 결제 실패')
       orders.update(order.id, { pointRestored: true })
       return fail(order, reason)
     } catch (error) {
-      return { order: orders.update(order.id, { status: 'cancel_failed', failReason: `${reason} · 상품권 복원 실패: ${(error as Error).message}` }), approvalUrl: null }
+      return { order: orders.update(order.id, { status: 'cancel_failed', failReason: `${reason} · 상품권 복원 실패: ${(error as Error).message}` }) }
     }
   }
 
@@ -143,7 +118,7 @@ export function createOrderService(dependencies: { orders: OrderRepository; prod
     }
     if (order.approvalNo && !order.pointRestored) {
       try {
-        await zeropay.cancelUsage(order.usageId!)
+        await zeropay.cancelUsage(order.approvalNo, order.paidAt ? '가입 취소' : '카드 결제 실패')
         order = orders.update(order.id, { pointRestored: true })
       } catch (error) {
         return orders.update(order.id, { status: 'cancel_failed', failReason: `상품권 복원 실패: ${(error as Error).message}` })
@@ -151,7 +126,7 @@ export function createOrderService(dependencies: { orders: OrderRepository; prod
     }
 
     // 결제 실패 중 복원만 남았던 주문은 가입한 적이 없으므로 「결제 실패」로 돌아감
-    return order.paidAt ? orders.update(order.id, { status: 'cancelled', cancelledAt: stamp() }) : orders.update(order.id, { status: 'failed' })
+    return order.paidAt ? orders.update(order.id, { status: 'cancelled', failReason: null, cancelledAt: stamp() }) : orders.update(order.id, { status: 'failed' })
   }
 
   function getOrder(orderId: number): Order {
@@ -178,8 +153,12 @@ export function createOrderService(dependencies: { orders: OrderRepository; prod
     if (order.status !== 'paid' && order.status !== 'cancel_failed') throw new AppError(ErrorCode.ORDER_NOT_CANCELLABLE)
   }
 
+  function isPointRejection(error: unknown): boolean {
+    return error instanceof AppError && (error.name === ErrorCode.POINT_INSUFFICIENT.name || error.name === ErrorCode.POINT_EXPIRED.name)
+  }
+
   function fail(order: Order, reason: string): PayResult {
-    return { order: orders.update(order.id, { status: 'failed', failReason: reason }), approvalUrl: null }
+    return { order: orders.update(order.id, { status: 'failed', failReason: reason }) }
   }
 
   function newOrder(input: PayInput, product: Product, plan: Plan, pointAmount: number, pgAmount: number): Omit<Order, 'id'> {
@@ -197,7 +176,6 @@ export function createOrderService(dependencies: { orders: OrderRepository; prod
       method: input.method,
       status: 'pending',
       failReason: null,
-      usageId: null,
       approvalNo: null,
       pgTxId: null,
       pointRestored: false,

@@ -66,4 +66,4 @@ App test scripts pass `--root .` because `vite.config.ts` sets the Vite root to 
 
 ## Local accounts
 
-Members hong / 1234 and kim / 1234 (payment PIN 123456). Operators admin / admin1234 on both apps.
+Members customer1111 / customer1111 and customer2222 / customer2222 (password equals the ID). Operators admin1234 / admin1234 on both apps. Screens never show these accounts.

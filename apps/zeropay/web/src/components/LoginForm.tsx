@@ -33,7 +33,6 @@ export function LoginForm({ onDone }: { onDone: () => void }) {
       <button className="primary" disabled={!loginId || !password}>
         로그인
       </button>
-      <p className="hint">모의 계정: hong / 1234 · kim / 1234</p>
     </form>
   )
 }

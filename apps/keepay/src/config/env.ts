@@ -7,7 +7,7 @@ const zEnv = z.object({
   ZEROPAY_URL: z.string().url().default('http://localhost:5100'),
   MERCHANT_KEY: z.string().min(1).default('keepay-local-key'),
   ZEROPAY_TIMEOUT_MS: z.coerce.number().int().positive().default(3000),
-  ADMIN_ID: z.string().min(1).default('admin'),
+  ADMIN_ID: z.string().min(1).default('admin1234'),
   ADMIN_PASSWORD: z.string().min(1).default('admin1234'),
 })
 

@@ -14,11 +14,10 @@ export type ApiError = z.infer<typeof zApiError>
 
 // 받는 쪽(제로페이 route)과 보내는 쪽(킵페이 클라이언트)이 같은 경로를 쓰도록 여기 한 곳에 둠
 export const paths = {
-  linkExchange: '/api/v0/link/exchange',
+  memberVerify: '/api/v0/members/verify',
   balance: '/api/v0/members/:memberId/balance',
   usages: '/api/v0/usages', // POST 사용 요청 · GET 사용 내역
-  usage: '/api/v0/usages/:usageId',
-  usageCancel: '/api/v0/usages/:usageId/cancel',
+  usageCancel: '/api/v0/usages/:approvalNo/cancel',
 } as const
 
 export function fillPath(path: string, params: Record<string, string>): string {

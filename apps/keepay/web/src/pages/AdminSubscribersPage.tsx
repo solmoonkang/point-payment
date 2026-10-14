@@ -4,7 +4,7 @@ import { adminApi, messageOf, useLoad, won, type SubscriberRow } from '../api'
 import { AdminFrame } from '../components/AdminFrame'
 
 const PAGE_SIZE = 10
-const STATUS_TEXT = { paid: '가입 완료', cancelled: '가입 취소', cancel_failed: '취소 미완료', failed: '결제 실패', pending: '처리 중', awaiting_approval: '승인 대기' } as const
+const STATUS_TEXT = { paid: '가입 완료', cancelled: '가입 취소', cancel_failed: '취소 미완료', failed: '결제 실패', pending: '처리 중' } as const
 
 // 예시 7 의 칸 그대로 (화면 · CSV 공용)
 const COLUMNS: [string, (row: SubscriberRow) => string][] = [

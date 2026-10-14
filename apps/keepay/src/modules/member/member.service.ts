@@ -6,7 +6,6 @@ import type { MemberRepository } from './member.repository.js'
 import type { Agreements, Member } from './member.type.js'
 
 export interface SignUpInput {
-  zeropayMemberId: string | null
   name: string
   birth: string
   phone: string
@@ -15,8 +14,7 @@ export interface SignUpInput {
 }
 
 export interface MemberService {
-  link(code: string): Promise<{ zeropayMemberId: string; zeropayName: string }> // 제로페이 링크의 일회용 값 → 제로페이 회원 번호
-  signUp(input: SignUpInput): Member
+  signUp(input: SignUpInput): Promise<Member> // 제로페이 회원이 아니면 zeropayMemberId 가 null (카드 결제만 가능)
   get(memberId: string): Member
 }
 
@@ -24,14 +22,10 @@ export function createMemberService(dependencies: { members: MemberRepository; z
   const { members, zeropay, now = () => new Date() } = dependencies
 
   return {
-    async link(code) {
-      const { memberId, name } = await zeropay.exchange(code)
-      return { zeropayMemberId: memberId, zeropayName: name }
-    },
-
-    signUp(input) {
+    async signUp(input) {
       validateRequiredAgreements(input.agreements)
-      const member = toMember(input, findPrevious(input.zeropayMemberId))
+      const zeropayMemberId = await zeropay.verifyMember({ name: input.name, birth: input.birth, phone: input.phone })
+      const member = toMember({ ...input, zeropayMemberId }, findPrevious(zeropayMemberId))
       members.save(member)
       return member
     },
@@ -52,7 +46,7 @@ export function createMemberService(dependencies: { members: MemberRepository; z
     return zeropayMemberId ? members.findByZeropayMemberId(zeropayMemberId) : undefined
   }
 
-  function toMember(input: SignUpInput, previous: Member | undefined): Member {
+  function toMember(input: SignUpInput & { zeropayMemberId: string | null }, previous: Member | undefined): Member {
     return { ...input, id: previous?.id ?? `km_${randomUUID().slice(0, 8)}`, createdAt: previous?.createdAt ?? now().toISOString() }
   }
 }

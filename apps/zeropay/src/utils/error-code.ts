@@ -16,15 +16,13 @@ export const ErrorCode = defineErrors({
   LOGIN_FAILED: { status: 'unauthorized', message: '아이디 또는 비밀번호가 맞지 않습니다' },
 
   MEMBER_NOT_FOUND: { status: 'not-found', message: '없는 회원입니다' },
-  LINK_CODE_NOT_FOUND: { status: 'not-found', message: '없는 일회용 값입니다' },
-  LINK_CODE_USED: { status: 'expired', message: '이미 쓴 일회용 값입니다' },
-  LINK_CODE_EXPIRED: { status: 'expired', message: '시간이 지난 일회용 값입니다' },
+  MEMBER_NOT_MATCHED: { status: 'not-found', message: '일치하는 제로페이 회원이 없습니다' },
 
   GRANT_AMOUNT_INVALID: { status: 'invalid', message: '지급 금액은 1원 이상 정수입니다' },
   USAGE_NOT_FOUND: { status: 'not-found', message: '없는 사용 건입니다' },
-  USAGE_OF_OTHER_MEMBER: { status: 'unauthorized', message: '다른 회원의 결제입니다' },
-  REQUEST_ID_REUSED: { status: 'conflict', message: '같은 요청 번호로 다른 내용을 보냈습니다' },
-  PAY_PASSWORD_MISMATCH: { status: 'invalid', message: '결제 비밀번호가 맞지 않습니다' },
+  ORDER_REUSED: { status: 'conflict', message: '같은 주문 번호로 다른 내용을 보냈습니다' },
+  INSUFFICIENT_BALANCE: { status: 'invalid', message: '잔액이 부족합니다' },
+  VOUCHER_EXPIRED: { status: 'expired', message: '상품권이 만료되었습니다' },
   CANCEL_FAILURE_FORCED: { status: 'unavailable', message: '오류 상황 설정으로 사용 취소를 실패시켰습니다' },
 })
 

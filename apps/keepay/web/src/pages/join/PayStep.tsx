@@ -20,8 +20,7 @@ export function PayStep({ product, plan, gym, customerName, zeropayLinked, onPre
     setError('')
     try {
       const result = await orderApi.pay({ requestId: requestId.current, productId: product.id, planId: plan.id, gymId: gym?.id ?? null, method })
-      if (result.approvalUrl) window.location.href = result.approvalUrl
-      else navigate(`/pay/result/${result.order.id}`)
+      navigate(`/pay/result/${result.order.id}`)
     } catch (failure) {
       setError(messageOf(failure))
       requestId.current = crypto.randomUUID()
@@ -45,7 +44,7 @@ export function PayStep({ product, plan, gym, customerName, zeropayLinked, onPre
           <span className="ic"><svg className="i"><use href="#i-coins" /></svg></span>
           <span>
             <b>튼튼머니 스포츠활동 포인트</b>
-            <small>{zeropayLinked ? `보유 ${won(quote.data?.balance ?? 0)}P` : '제로페이 회원 연결 없음'}</small>
+            <small>{zeropayLinked ? `보유 ${won(quote.data?.balance ?? 0)}P` : '일치하는 제로페이 회원 없음'}</small>
           </span>
         </button>
         <button type="button" className={`method ${method === 'card' ? 'sel' : ''}`} onClick={() => setMethod('card')} aria-pressed={method === 'card'}>

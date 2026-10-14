@@ -8,7 +8,7 @@ export interface LedgerEntry {
   kind: 'grant' | 'use' | 'cancel' // 지급 · 사용 · 사용 취소
   amount: number // 지급 · 사용 취소는 +, 사용은 -
   balanceAfter: number // 화면에 바로 보여 주려고 더한 뒤 잔액을 함께 남김
-  usageId: string | null
+  approvalNo: string | null
   memo: string
   at: string
 }
@@ -20,18 +20,6 @@ export interface Wallet {
 
 export interface UsageRecord extends Usage {
   merchant: string
-  returnUrl: string
-}
-
-export interface ApprovalView {
-  usageId: string
-  merchant: string
-  amount: number
-  balance: number
-  status: Usage['status']
-  rejectReason: Usage['rejectReason']
-  memberName: string
-  returnUrl: string
 }
 
 export interface HistoryRow {

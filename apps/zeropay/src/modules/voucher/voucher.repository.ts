@@ -6,8 +6,8 @@ export interface VoucherRepository {
   wallet(memberId: string): Wallet
   saveWallet(wallet: Wallet): void
   saveUsage(usage: UsageRecord): void
-  findUsage(usageId: string): UsageRecord | undefined
-  findUsageByRequestId(merchant: string, requestId: string): UsageRecord | undefined
+  findUsage(approvalNo: string): UsageRecord | undefined
+  findUsageByOrder(merchant: string, merchantOrderId: string): UsageRecord | undefined
   usages(): UsageRecord[]
   nextApprovalNo(): string
 }
@@ -24,13 +24,13 @@ export function createMemoryVoucherRepository(): VoucherRepository {
     entries: (memberId) => ledger.filter((entry) => !memberId || entry.memberId === memberId).map((entry) => ({ ...entry })),
     wallet: (memberId) => ({ ...(wallets.get(memberId) ?? { memberId, expiresOn: null }) }),
     saveWallet: (wallet) => void wallets.set(wallet.memberId, { ...wallet }),
-    saveUsage: (usage) => void usages.set(usage.usageId, { ...usage }),
-    findUsage: (usageId) => {
-      const usage = usages.get(usageId)
+    saveUsage: (usage) => void usages.set(usage.approvalNo, { ...usage }),
+    findUsage: (approvalNo) => {
+      const usage = usages.get(approvalNo)
       return usage && { ...usage }
     },
-    findUsageByRequestId: (merchant, requestId) => {
-      const usage = [...usages.values()].find((item) => item.merchant === merchant && item.requestId === requestId)
+    findUsageByOrder: (merchant, merchantOrderId) => {
+      const usage = [...usages.values()].find((item) => item.merchant === merchant && item.merchantOrderId === merchantOrderId)
       return usage && { ...usage }
     },
     usages: () => [...usages.values()].map((usage) => ({ ...usage })),

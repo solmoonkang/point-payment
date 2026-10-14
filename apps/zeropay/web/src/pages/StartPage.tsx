@@ -1,12 +1,10 @@
 // 제안서에 없음 · 제로페이 회원 시작 화면 (튼튼몰을 흉내 낸 모의)
-import { useState } from 'react'
-import { ApiFailure, memberApi, useLoad, won } from '../api'
+import { memberApi, useLoad, won } from '../api'
 import { LoginForm } from '../components/LoginForm'
 import { MallFrame } from '../components/MallFrame'
 
 export function StartPage() {
   const me = useLoad(memberApi.me, [])
-  const [error, setError] = useState('')
 
   if (me.error?.name === 'MEMBER_LOGIN_REQUIRED') {
     return (
@@ -17,19 +15,12 @@ export function StartPage() {
   }
   if (!me.data) return <MallFrame>{me.error ? <p className="pad err">{me.error.message}</p> : <p className="pad">불러오는 중…</p>}</MallFrame>
 
-  const goKeepay = async () => {
-    try {
-      window.location.href = (await memberApi.link()).url
-    } catch (failure) {
-      setError(failure instanceof ApiFailure ? failure.message : '이동에 실패했습니다')
-    }
-  }
   const logout = async () => {
     await memberApi.logout()
     me.reload()
   }
 
-  const { member, balance, expiresOn } = me.data
+  const { member, balance, expiresOn, keepayUrl } = me.data
   return (
     <MallFrame>
       <div className="pad">
@@ -52,12 +43,11 @@ export function StartPage() {
               <li>헬스장 휴폐업 보험 · 월 15,000원</li>
               <li>스포츠활동 보험 · 월 10,000원~</li>
             </ul>
-            <button className="primary" onClick={goKeepay}>
+            <a className="primary" href={keepayUrl}>
               킵페이에서 가입하기
-            </button>
+            </a>
           </div>
         </div>
-        {error && <p className="err">{error}</p>}
         <button className="ghost" onClick={logout}>
           로그아웃
         </button>

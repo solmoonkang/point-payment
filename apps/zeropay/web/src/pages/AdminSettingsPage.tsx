@@ -3,7 +3,7 @@ import { adminApi, useLoad, type Settings } from '../api'
 import { AdminFrame } from '../components/AdminFrame'
 
 const ITEMS: { name: keyof Settings; title: string; detail: string }[] = [
-  { name: 'dropNextUseResponse', title: '다음 사용 요청에 응답하지 않음', detail: '처리는 하고 연결을 끊음. 킵페이가 같은 요청 번호로 다시 보내 한 번만 차감되는지 확인' },
+  { name: 'dropNextUseResponse', title: '다음 사용 요청에 응답하지 않음', detail: '처리는 하고 연결을 끊음. 킵페이가 같은 주문 번호로 다시 보내 한 번만 차감되는지 확인' },
   { name: 'failNextCancel', title: '다음 사용 취소를 실패로 응답', detail: '복원하지 않고 일시 장애로 응답. 킵페이가 「취소 미완료」로 남기고 다시 시도하는지 확인' },
 ]
 

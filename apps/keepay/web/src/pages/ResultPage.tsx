@@ -1,25 +1,16 @@
-// 제안서에 없음 · 결제 결과 (제로페이 승인 뒤 서버가 제로페이에 직접 확인한 결과)
+// 제안서에 없음 · 결제 결과
 import { Link, useParams } from 'wouter'
 import { orderApi, useLoad, won } from '../api'
 import { SiteFrame } from '../components/SiteFrame'
 
 export function ResultPage() {
   const { orderId = '' } = useParams<{ orderId: string }>()
-  const result = useLoad(() => orderApi.confirm(Number(orderId)), [orderId])
+  const result = useLoad(() => orderApi.get(Number(orderId)), [orderId])
 
   const body = () => {
     if (result.error) return <p className="err">{result.error.message}</p>
     if (!result.data) return <p className="hint">결제 결과를 확인하는 중…</p>
-    const { order, approvalUrl } = result.data
-
-    if (order.status === 'awaiting_approval' && approvalUrl) {
-      return (
-        <>
-          <p className="result-mark">제로페이 승인 대기</p>
-          <a className="btn" href={approvalUrl}>제로페이에서 승인하기</a>
-        </>
-      )
-    }
+    const { order } = result.data
 
     const ok = order.status === 'paid'
     return (

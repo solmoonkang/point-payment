@@ -24,7 +24,6 @@ export function JoinPage() {
   useEffect(() => {
     const member = session.data?.member
     if (member) setCustomer({ name: member.name, birth: member.birth, phone: member.phone, email: member.email })
-    else if (session.data?.zeropayName) setCustomer((prev) => ({ ...prev, name: prev.name || session.data!.zeropayName! }))
   }, [session.data])
 
   if (!product.data) return <SiteFrame><div className="body"><div className="col">{product.error ? <p className="err">{product.error.message}</p> : null}</div></div></SiteFrame>
@@ -51,7 +50,7 @@ export function JoinPage() {
           </div>
           {steps[step] === '상품 확인' && <ProductStep product={current} selected={plan.id} onSelect={setPlanId} onNext={next} />}
           {steps[step] === '약관 동의' && <TermsStep agreements={agreements} onChange={setAgreements} onNext={next} />}
-          {steps[step] === '고객정보' && <CustomerStep customer={customer} agreements={agreements} onChange={setCustomer} onPrev={prev} onNext={next} />}
+          {steps[step] === '고객정보' && <CustomerStep customer={customer} agreements={agreements} onChange={setCustomer} onPrev={prev} onNext={() => (session.reload(), next())} />}
           {steps[step] === '헬스장 검색' && <GymStep selected={gym} onSelect={setGym} onPrev={prev} onNext={next} />}
           {steps[step] === '결제' && <PayStep product={current} plan={plan} gym={current.needsGym ? gym : null} customerName={customer.name} zeropayLinked={session.data?.zeropayLinked ?? false} onPrev={prev} />}
         </div>

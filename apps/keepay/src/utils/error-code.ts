@@ -28,6 +28,9 @@ export const ErrorCode = defineErrors({
 
   ZEROPAY_UNAVAILABLE: { status: 'unavailable', message: '제로페이에 일시적으로 연결할 수 없습니다' },
   ZEROPAY_REJECTED: { status: 'invalid', message: '제로페이가 요청을 거절했습니다' },
+  ZEROPAY_NOT_FOUND: { status: 'not-found', message: '제로페이에 없는 정보입니다' },
+  POINT_INSUFFICIENT: { status: 'invalid', message: '상품권 잔액이 부족합니다' },
+  POINT_EXPIRED: { status: 'expired', message: '상품권이 만료되었습니다' },
 })
 
 export type ErrorEntry = (typeof ErrorCode)[keyof typeof ErrorCode]

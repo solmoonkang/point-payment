@@ -15,7 +15,7 @@ const HTTP_STATUS: Record<ApiErrorCode, number> = {
 
 export const errorHandler: ErrorRequestHandler = (error, _request, response, _next) => {
   const failure = toAppError(error)
-  response.status(HTTP_STATUS[failure.status]).json({ code: failure.status, error: failure.name, message: failure.message })
+  response.status(HTTP_STATUS[failure.status]).json({ code: failure.status, error: failure.name, message: failure.message, fields: failure.fields })
 }
 
 // 화면 연결보다 앞에 둬서, 없는 API 경로가 화면(index.html)으로 넘어가지 않게 함
@@ -25,7 +25,14 @@ export const apiNotFound: RequestHandler = () => {
 
 function toAppError(error: unknown): AppError {
   if (error instanceof AppError) return error
-  if (error instanceof ZodError) return new AppError(ErrorCode.INVALID_INPUT, error.issues.map((issue) => issue.message).join(', '))
+  if (error instanceof ZodError) return invalidInput(error)
   console.error(error)
   return new AppError(ErrorCode.SERVER_ERROR)
+}
+
+function invalidInput(error: ZodError): AppError {
+  const failure = new AppError(ErrorCode.INVALID_INPUT)
+  failure.fields = {}
+  for (const issue of error.issues) failure.fields[issue.path.join('.')] ??= issue.message
+  return failure
 }

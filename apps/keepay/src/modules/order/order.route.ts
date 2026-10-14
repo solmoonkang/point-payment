@@ -7,5 +7,5 @@ export function orderRoutes(app: Express, services: Services): void {
   const orderController = createOrderController(services.order)
   app.get('/api/orders/quote', requireMember, orderController.quote)
   app.post('/api/orders', requireMember, orderController.pay)
-  app.post('/api/orders/:orderId/confirm', requireMember, orderController.confirm)
+  app.get('/api/orders/:orderId', requireMember, orderController.get)
 }
