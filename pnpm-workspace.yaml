@@ -1,0 +1,4 @@
+# pnpm workspace — apps/*(킵페이 · 제로페이 서버)와 packages/*(두 회사 사이 연동 계약)를 함께 관리.
+packages:
+  - apps/*
+  - packages/*

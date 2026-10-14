@@ -1,0 +1,23 @@
+{
+  "name": "@point-payment/contract",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "킵페이 ↔ 제로페이 연동 계약 — 회원 번호 교환 · 잔액 조회 · 사용 요청 · 사용 취소 · 사용 내역의 zod 스키마와 경로. 두 서버가 함께 쓰는 단일 소스.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.4"
+  }
+}

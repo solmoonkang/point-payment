@@ -1,0 +1,31 @@
+{
+  "name": "@point-payment/zeropay",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "description": "제로페이 모의 서버 — 회원 · 상품권 잔액 · 결제 승인 · 운영자 콘솔. 실제 연동이 열리면 지운다.",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "check": "tsc --noEmit && tsc --noEmit -p web",
+    "test": "vitest run --root ."
+  },
+  "dependencies": {
+    "@point-payment/contract": "workspace:*",
+    "express": "^5.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "wouter": "^3.3.5",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.7.3",
+    "vite": "^7.1.0",
+    "vitest": "^3.2.4"
+  }
+}

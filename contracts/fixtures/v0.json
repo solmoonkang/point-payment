@@ -1,0 +1,64 @@
+{
+  "linkExchange": {
+    "request": {
+      "code": "q8Zr3yB0x1Kc9mWfLp2TnVd7aQeHs4Uj"
+    },
+    "response": {
+      "memberId": "zm_hong0001",
+      "name": "홍길동"
+    }
+  },
+  "balance": {
+    "response": {
+      "memberId": "zm_hong0001",
+      "balance": 35000,
+      "expiresOn": "2026-12-20"
+    }
+  },
+  "usageCreate": {
+    "request": {
+      "requestId": "5b6f2c7e-0f7a-4d55-9d0e-6b9f7f1e2a10",
+      "memberId": "zm_hong0001",
+      "amount": 15000,
+      "merchantOrderId": "1",
+      "returnUrl": "http://localhost:5200/pay/result/1"
+    },
+    "response": {
+      "usageId": "use_8f3a1c2b9d0e",
+      "requestId": "5b6f2c7e-0f7a-4d55-9d0e-6b9f7f1e2a10",
+      "memberId": "zm_hong0001",
+      "merchantOrderId": "1",
+      "amount": 15000,
+      "status": "pending",
+      "rejectReason": null,
+      "approvalNo": null,
+      "approvalUrl": "http://localhost:5100/approve/use_8f3a1c2b9d0e",
+      "createdAt": "2026-10-14T02:05:12.000Z",
+      "approvedAt": null,
+      "cancelledAt": null
+    }
+  },
+  "usageApproved": {
+    "response": {
+      "usageId": "use_8f3a1c2b9d0e",
+      "requestId": "5b6f2c7e-0f7a-4d55-9d0e-6b9f7f1e2a10",
+      "memberId": "zm_hong0001",
+      "merchantOrderId": "1",
+      "amount": 15000,
+      "status": "approved",
+      "rejectReason": null,
+      "approvalNo": "A-1024",
+      "approvalUrl": "http://localhost:5100/approve/use_8f3a1c2b9d0e",
+      "createdAt": "2026-10-14T02:05:12.000Z",
+      "approvedAt": "2026-10-14T02:05:40.000Z",
+      "cancelledAt": null
+    }
+  },
+  "error": {
+    "response": {
+      "code": "conflict",
+      "error": "REQUEST_ID_REUSED",
+      "message": "같은 요청 번호로 다른 내용을 보냈습니다"
+    }
+  }
+}

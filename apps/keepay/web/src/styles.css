@@ -1,0 +1,184 @@
+/* 「화면 예시」 부분은 제안서 요약 문서의 CSS 그대로라 고치지 않음. 그림에 없는 입력 · 상태 · 화면 크기는 맨 아래 「실제 화면 보정」 에서만 다룸 */
+:root{
+  --ink:#14201a; --sub:#5b6b62; --line:#e2ece6; --bg:#f6f8f6; --card:#fff;
+  --green:#059c53; --green-d:#0b6b3a; --green-l:#e9fdf1; --mint:#d1f7f0; --pale:#f7fdf9;
+  --note:#e8f1ff; --note-b:#2f6fed; --note-ink:#173a85;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font:16px/1.6 -apple-system,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif}
+
+/* 화면 예시 */
+.shot{margin:40px 0 0}
+.shot h3{font-size:20px;margin:0 0 12px}
+.shot h3 em{font-style:normal;color:var(--green);margin-right:8px}
+.scroll{overflow-x:auto;border-radius:14px;border:1px solid #cfdad3;box-shadow:0 6px 24px rgba(20,40,30,.08);background:#fff}
+.scr{min-width:820px;background:#fff;font-size:14px;line-height:1.5;color:#111}
+.scr .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid #edf1ee}
+.scr .nav b{color:var(--green-d);font-size:16px}
+.scr .nav span{font-size:13px;color:#333;margin-left:18px}
+.scr .foot{display:flex;justify-content:space-between;background:var(--mint);padding:26px 18px 12px;font-size:13px;margin-top:56px}
+.scr .body{padding:44px 20px 8px}
+.col{width:504px;margin:0 auto}
+.back{font-size:13px;color:#444}
+.col h4{font-size:26px;margin:4px 0 14px;letter-spacing:-.02em}
+.steps{display:flex;gap:6px;margin-bottom:26px}
+.steps span{font-size:12px;padding:3px 10px;border-radius:999px;background:#edf3ef;color:#444}
+.steps span b{margin-right:6px}
+.steps .done{background:#d3f5df;color:#0b3d22}
+.steps .now{background:var(--green);color:#fff;font-weight:700}
+.panel{background:var(--pale);border:1px solid var(--line);border-radius:10px;padding:24px}
+.panel h5{font-size:16px;margin:0 0 16px}
+.sel{background:var(--green-l);border:1.5px solid #17a05d;border-radius:8px}
+.btn{display:block;background:var(--green);color:#fff;font-weight:700;text-align:center;border-radius:6px;padding:9px 12px}
+.btn.ghost{background:var(--mint);color:#111}
+.row2{display:flex;gap:10px;margin-top:18px}
+.row2 .ghost{flex:0 0 148px}
+.row2 .btn:last-child{flex:1}
+.ck{color:var(--green);margin-right:8px}
+.dot{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--green);color:#fff;font-size:11px;margin-right:12px;vertical-align:middle}
+/* 예시 1 */
+.pick{text-align:center}
+.pill{display:inline-block;background:#fdeab5;font-size:11px;padding:3px 12px;border-radius:999px}
+.pick h4{font-size:30px;margin:10px 0 6px;letter-spacing:-.02em}
+.pick p{color:#555;margin:0 0 30px}
+.plans{display:flex;gap:26px;justify-content:center;text-align:left}
+.plan{width:340px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--pale)}
+.plan img{display:block;width:340px;height:168px;object-fit:cover}
+.plan .in{padding:18px}
+.plan .hd{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800}
+.plan .ic{width:30px;height:30px;border-radius:50%;background:#cdf5dc;display:grid;place-items:center;font-size:15px}
+.plan .bd{margin-left:auto;font-size:10px;font-weight:700;background:var(--mint);padding:2px 8px;border-radius:999px}
+.plan .ds{font-size:11.8px;letter-spacing:-.04em;white-space:nowrap;color:#444;margin:12px 0 10px}
+.plan ul{list-style:none;margin:0;padding:0;font-size:12.5px}
+.plan li{margin:3px 0}
+.plan .bt{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.plan .bt b{font-size:16px}.plan .bt small{font-size:11px;font-weight:400}
+.plan .bt .btn{padding:5px 14px;font-size:13px}
+.three{display:flex;gap:12px;justify-content:center;margin-top:42px}
+.three div{width:228px;background:var(--pale);border:1px solid var(--line);border-radius:6px;padding:14px;text-align:left;font-size:13px;font-weight:600}
+.three i{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#f6921e;color:#fff;font-style:normal;font-size:12px;margin-right:12px}
+/* 예시 2~6 */
+.opt{padding:16px;position:relative}
+.opt .radio{position:absolute;right:16px;top:20px;width:14px;height:14px;border-radius:50%;border:4px solid var(--green);background:#fff}
+.opt .pr{font-size:21px;font-weight:800}.opt .pr small{font-size:11px;font-weight:400}
+.opt ul{list-style:none;margin:8px 0 0;padding:0;font-size:11px;color:#333}
+.all{padding:14px 18px;font-weight:700;margin-bottom:12px}
+.terms{border:1px solid var(--line);border-radius:8px;background:#fff}
+.terms div{display:flex;align-items:center;padding:14px;border-top:1px solid var(--line);font-size:13px}
+.terms div:first-child{border-top:0}
+.terms .req{color:#c66a00;margin-right:4px}.terms .optn{color:#666;margin-right:4px}
+.terms .chev{margin-left:auto;color:#777}
+.fld label{display:block;font-size:13px;margin:12px 0 4px}
+.fld>div:not(.row2){background:#fff;border:1px solid #dfe5e1;border-radius:6px;padding:8px 14px;font-size:13px}
+.fld>div.focus{border:2px solid #3bbf7d;background:#eefaf6}
+.hint{font-size:12.5px;color:#444;margin:0 0 6px}
+.search{border:2px solid #3bbf7d;border-radius:6px;padding:8px 12px;color:#999;font-size:13px;background:#fff}
+.gyms{margin-top:12px;position:relative;padding-right:16px}
+.gyms::after{content:"";position:absolute;right:3px;top:8px;width:8px;height:96px;border-radius:4px;background:#8b8b8b}
+.gym{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin-bottom:7px}
+.gym.sel{background:var(--green-l);border:1.5px solid #17a05d}
+.gym .ic{width:30px;height:30px;border-radius:50%;background:var(--mint);display:grid;place-items:center;font-size:14px}
+.gym b{display:block;font-size:13.5px;line-height:1.2}.gym small{font-size:10.5px;color:#555}
+.gym .bd{margin-left:auto;font-size:10px;background:#fdeab5;padding:1px 8px;border-radius:999px}
+.sum{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:12.5px;background:var(--pale)}
+.sum div{display:flex;justify-content:space-between;padding:2px 0}
+.sum div span{color:#555}.sum div b{font-weight:700}
+.sum .tot{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-size:14px}
+.sum .tot span{color:#111;font-weight:700}.sum .tot b{color:var(--green-d)}
+.methods{display:flex;gap:8px}
+.method{flex:1;display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:12px 14px;background:#fff}
+.method.sel{background:var(--green-l);border:1.5px solid #17a05d}
+.method .ic{width:30px;height:30px;border-radius:50%;background:#fde7b5;display:grid;place-items:center;font-size:14px}
+.method b{display:block;font-size:13px;line-height:1.3}.method small{font-size:10.5px;color:#666}
+/* 예시 7 */
+.adm{display:flex;min-width:1330px;font-size:13px;color:#222}
+.adm aside{flex:0 0 200px;border-right:1px solid #eee;padding:8px 0 80px}
+.adm aside img{display:block;width:180px;margin:0 0 6px 4px}
+.adm aside div{padding:12px 8px;display:flex;gap:8px}
+.adm aside div span{margin-left:auto}
+.adm .mn{flex:1;padding:18px 24px 24px 34px}
+.adm .bc{display:flex;justify-content:space-between;align-items:center;color:#777;margin-bottom:22px}
+.adm .bc u{text-decoration:none;border:1px solid #e3e3e3;border-radius:6px;padding:5px 14px;color:#222}
+.adm .flt{display:flex;gap:10px;align-items:flex-end;border:1px solid #eee;border-radius:8px;padding:14px 18px;margin-bottom:34px}
+.adm .flt label{display:block;font-size:13px;margin-bottom:6px}
+.adm .flt .in{border:1px solid #e3e3e3;border-radius:6px;padding:5px 10px;color:#999;white-space:nowrap}
+.adm .flt .go{background:#1677ff;color:#fff;border-radius:6px;padding:6px 14px}
+.adm .flt .rs{border:1px solid #e3e3e3;border-radius:6px;padding:5px 14px;color:#888}
+.adm table{width:100%;border-collapse:collapse;border:1px solid #eee;white-space:nowrap}
+.adm th,.adm td{text-align:left;padding:13px 14px;border-bottom:1px solid #eee;font-weight:400}
+.adm .pg{display:flex;justify-content:space-between;align-items:center;margin-top:28px;color:#888}
+.adm .pg span{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:6px;margin-left:8px;color:#333}
+.adm .pg .cur{background:#111;color:#fff}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em}
+.plan .ic,.gym .ic{color:var(--green-d)}.method .ic{color:#7a4a00}.three .i{color:var(--green-d);margin-right:10px}.opt li .i{color:var(--green-d);margin-right:4px}.adm aside .i{font-size:15px}
+
+
+/* 실제 화면 보정 */
+/* 화면 전체: 그림의 고정 폭 대신 브라우저 크기, 꼬리말은 아래에 붙임 */
+.scr{min-width:0;min-height:100vh;display:flex;flex-direction:column}
+.scr .body{flex:1}
+.scr .nav a{color:inherit;text-decoration:none}
+a.btn{text-decoration:none}
+
+/* 버튼 · 입력 기본값 지우기 (그림의 span · div 를 button · input 으로 바꿨으므로) */
+button{font:inherit;color:inherit;cursor:pointer}
+button.btn{border:0;width:100%;font-weight:700;color:#fff}
+button.btn.ghost{color:#111}
+.row2 button.btn{width:auto}
+.btn[disabled],.method[disabled]{opacity:.5;cursor:default}
+.back{display:inline-block;color:#444;text-decoration:none}
+
+/* 예시 2: 고르지 않은 플랜 */
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:8px;background:#fff}
+.opt+.opt{margin-top:10px}
+.opt:not(.sel) .radio{border-width:1.5px;border-color:#c9d3cd}
+
+/* 예시 3: 동의하지 않은 줄 */
+.all,.terms div{cursor:pointer}
+.all:not(.sel){border:1px solid var(--line);border-radius:8px;background:#fff}
+.dot.off{background:#fff;border:1.5px solid #c9d3cd;color:transparent}
+
+/* 예시 4: 입력 칸 (그림의 .fld>div 와 같은 모양, 입력 중이면 그림의 .focus 모양) */
+.fld input{display:block;width:100%;background:#fff;border:1px solid #dfe5e1;border-radius:6px;padding:8px 14px;font:inherit;font-size:13px}
+.fld input:focus{outline:0;border:2px solid #3bbf7d;background:#eefaf6;padding:7px 13px}
+
+/* 예시 5: 검색 입력 · 실제 목록 스크롤 */
+.search{display:flex;align-items:center;gap:6px;color:#333}
+.search input{flex:1;border:0;outline:0;background:none;font:inherit}
+.gyms{max-height:274px;overflow-y:auto}
+.gyms::after{display:none}
+.gym{width:100%;text-align:left}
+
+/* 예시 6: 결제수단 버튼 · 포인트와 카드로 나눠 낼 때 한 줄 (추가) */
+.method{text-align:left}
+.split{font-size:12.5px;color:#5a4300;background:#fff8e6;border:1px solid #f3e1b5;border-radius:6px;padding:8px 12px;margin:10px 0 0}
+.err{color:#c0392b;font-size:12.5px;margin:10px 0 0}
+
+/* 결과 화면 (추가) */
+.result-mark{font-size:20px;font-weight:800;margin:0 0 12px}
+.result-mark.ok{color:var(--green-d)}
+.result-mark.no{color:#c0392b}
+
+/* 운영자 콘솔 (예시 7): 화면 전체 · 버튼 · 입력 */
+.adm{min-height:100vh;background:#fff}
+.adm aside a,.adm aside button{padding:12px 8px;display:flex;gap:8px;color:inherit;text-decoration:none;background:none;border:0;width:100%;text-align:left}
+.adm aside a.on{font-weight:800}
+.adm aside .extra{display:block;border-top:1px solid #eee;margin-top:12px;padding:6px 0 0}
+.adm .bc button{border:1px solid #e3e3e3;border-radius:6px;padding:5px 14px;color:#222;background:#fff}
+.adm .flt input.in,.adm .flt select.in{color:#333;background:#fff;font:inherit}
+.adm .flt .go{border:0}
+.adm .flt .rs{background:#fff}
+.adm .pg button{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:6px;margin-left:8px;color:#333;border:0;background:none}
+.adm .pg .cur{background:#111;color:#fff}
+.adm tbody tr.row{cursor:pointer}
+.adm tbody tr.open td{background:var(--green-l)}
+.adm .detail td{background:#fafcfb;white-space:normal}
+.adm .detail dl{display:grid;grid-template-columns:repeat(4,auto 1fr);gap:6px 14px;margin:0 0 12px}
+.adm .detail dt{color:#777}
+.adm .detail dd{margin:0}
+.adm .detail .go{background:#1677ff;color:#fff;border:0;border-radius:6px;padding:6px 14px}
+.adm .toggle{display:flex;gap:12px;align-items:flex-start;border:1px solid #eee;border-radius:8px;padding:14px 16px;max-width:640px}
+.adm .toggle small{display:block;color:#777;margin-top:2px}
+.login-box{max-width:360px;margin:120px auto;border:1px solid #eee;border-radius:12px;padding:28px;font-size:14px}
+.login-box h1{font-size:20px;margin:0 0 4px}
+.login-box .hint{color:var(--sub);font-size:12.5px}
