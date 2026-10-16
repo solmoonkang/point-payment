@@ -93,7 +93,7 @@ body{margin:0;background:#fff;color:var(--ink);font:16px/1.6 -apple-system,"Appl
 /* 예시 7 */
 .adm{display:flex;min-width:1330px;font-size:13px;color:#222}
 .adm aside{flex:0 0 200px;border-right:1px solid #eee;padding:8px 0 80px}
-.adm aside img{display:block;width:180px;margin:0 0 6px 4px}
+.adm aside .logo{display:block;padding:14px 12px 18px;font-size:22px;font-weight:800;font-style:italic;color:var(--green)}
 .adm aside div{padding:12px 8px;display:flex;gap:8px}
 .adm aside div span{margin-left:auto}
 .adm .mn{flex:1;padding:18px 24px 24px 34px}
@@ -175,7 +175,8 @@ button.btn.ghost{color:#111}
 .adm tbody tr.row{cursor:pointer}
 .adm tbody tr.open td{background:var(--green-l)}
 .adm .detail td{background:#fafcfb;white-space:normal}
-.adm .detail dl{display:grid;grid-template-columns:repeat(4,auto 1fr);gap:6px 14px;margin:0 0 12px}
+.adm .detail .dbox{display:flex;align-items:center;gap:24px}
+.adm .detail dl{flex:1;display:grid;grid-template-columns:repeat(4,auto 1fr);gap:6px 14px;margin:0}
 .adm .detail dt{color:#777}
 .adm .detail dd{margin:0}
 .adm .detail .go{background:#1677ff;color:#fff;border:0;border-radius:6px;padding:6px 14px}

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1630" height="740" viewBox="0 0 1630 740" font-family="'Apple SD Gothic Neo','Pretendard','Malgun Gothic','Noto Sans KR',sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#1f2937"/></marker>
+  </defs>
+  <style>
+    .t{font-size:20px;font-weight:700;fill:#111827;text-anchor:middle}
+    .c{font-family:'SF Mono',Menlo,monospace;font-size:14px;font-weight:600;text-anchor:middle}
+    .d{font-size:14px;fill:#374151;text-anchor:middle}
+    .l{font-size:14px;font-weight:600;fill:#111827;text-anchor:middle}
+    .r{font-size:13.5px;fill:#6b7280;text-anchor:middle}
+    .e{stroke:#1f2937;stroke-width:1.7;fill:none;marker-end:url(#a)}
+    .p{stroke:#1f2937;stroke-width:1.7;fill:none;stroke-dasharray:6 5;marker-end:url(#a)}
+    .w{font-size:14px;fill:#dc2626}
+    .n circle{fill:#111827}.n text{fill:#fff;font-size:13px;font-weight:700;text-anchor:middle}
+  </style>
+  <rect width="1630" height="740" fill="#fff"/>
+
+  <text x="30" y="66" font-size="30" font-weight="800" fill="#111827">포인트 결제 연동 흐름</text>
+  <g font-size="14" fill="#374151">
+    <rect x="1000" y="44" width="18" height="18" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/><text x="1026" y="58">화면</text>
+    <rect x="1082" y="44" width="18" height="18" rx="4" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/><text x="1108" y="58">킵페이</text>
+    <rect x="1176" y="44" width="18" height="18" rx="4" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/><text x="1202" y="58">제로페이</text>
+    <rect x="1270" y="44" width="18" height="18" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/><text x="1296" y="58">저장소</text>
+    <path class="e" d="M1364 53h36"/><text x="1408" y="58">요청</text>
+    <path class="p" d="M1456 53h36"/><text x="1500" y="58">응답</text>
+  </g>
+
+  <!-- 영역 -->
+  <rect x="210" y="104" width="690" height="550" rx="14" fill="#f6fef9" stroke="#16a34a" stroke-width="1.6" stroke-dasharray="7 6"/>
+  <text x="232" y="138" font-size="17" font-weight="700" fill="#111827">킵페이 서버 :5200</text>
+  <text x="396" y="138" font-size="13.5" fill="#6b7280">apps/keepay</text>
+  <rect x="1040" y="104" width="550" height="550" rx="14" fill="#faf8ff" stroke="#7c3aed" stroke-width="1.6" stroke-dasharray="7 6"/>
+  <text x="1062" y="138" font-size="17" font-weight="700" fill="#111827">제로페이 서버 :5100</text>
+  <text x="1236" y="138" font-size="13.5" fill="#6b7280">apps/zeropay</text>
+
+  <!-- 브라우저 -->
+  <rect x="30" y="320" width="140" height="120" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text class="t" x="100" y="370">회원 브라우저</text>
+  <text class="d" x="100" y="396">킵페이 가입 화면</text>
+
+  <!-- 1 회원 서비스 -->
+  <rect x="290" y="170" width="220" height="120" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text class="t" x="400" y="208">회원 서비스</text>
+  <text class="c" x="400" y="233" fill="#15803d">POST /api/members</text>
+  <text class="d" x="400" y="257">고객정보 저장</text>
+  <text class="d" x="400" y="276">제로페이 회원 번호 연결</text>
+  <g class="n"><circle cx="290" cy="170" r="14"/><text x="290" y="174.5">1</text></g>
+
+  <!-- 2 주문 서비스 -->
+  <rect x="290" y="320" width="220" height="120" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text class="t" x="400" y="358">주문 서비스</text>
+  <text class="c" x="400" y="383" fill="#15803d">POST /api/orders</text>
+  <text class="d" x="400" y="407">포인트 먼저 차감</text>
+  <text class="d" x="400" y="426">남은 금액은 카드 결제</text>
+  <g class="n"><circle cx="290" cy="320" r="14"/><text x="290" y="324.5">2</text></g>
+
+  <!-- 3 제로페이 클라이언트 -->
+  <rect x="620" y="320" width="240" height="120" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text class="t" x="740" y="358">제로페이 클라이언트</text>
+  <text class="c" x="740" y="383" fill="#15803d">infrastructure/zeropay</text>
+  <text class="d" x="740" y="407">제로페이 호출은</text>
+  <text class="d" x="740" y="426">모두 이곳을 거친다</text>
+  <g class="n"><circle cx="620" cy="320" r="14"/><text x="620" y="324.5">3</text></g>
+
+  <!-- 5 PG 클라이언트 -->
+  <rect x="290" y="500" width="220" height="120" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text class="t" x="400" y="538">PG 클라이언트</text>
+  <text class="c" x="400" y="563" fill="#15803d">infrastructure/pg</text>
+  <text class="d" x="400" y="587">실제 PG 미연동</text>
+  <text class="d" x="400" y="606">항상 승인 · 실패는 개발용 설정</text>
+  <g class="n"><circle cx="290" cy="500" r="14"/><text x="290" y="504.5">5</text></g>
+
+  <!-- 4 제로페이 API -->
+  <rect x="1080" y="320" width="220" height="120" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text class="t" x="1190" y="358">제로페이 API</text>
+  <text class="c" x="1190" y="383" fill="#6d28d9">/api/v0/*</text>
+  <text class="d" x="1190" y="407">회원 확인 · 잔액 조회</text>
+  <text class="d" x="1190" y="426">사용 요청 · 사용 취소</text>
+  <g class="n"><circle cx="1080" cy="320" r="14"/><text x="1080" y="324.5">4</text></g>
+
+  <!-- 상품권 원장 -->
+  <rect x="1380" y="320" width="170" height="120" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text class="t" x="1465" y="366">상품권 원장</text>
+  <text class="d" x="1465" y="394">메모리 저장</text>
+  <text class="d" x="1465" y="413">잔액은 제로페이만 계산</text>
+
+  <!-- 요청 -->
+  <path class="e" d="M100 320V230H288"/><text class="l" x="140" y="221">가입</text>
+  <path class="e" d="M170 365H288"/><text class="l" x="250" y="356">결제</text>
+  <path class="e" d="M510 230H740V318"/><text class="l" x="625" y="221">회원 확인</text>
+  <path class="e" d="M510 365H618"/><text class="l" x="565" y="356">사용 요청</text>
+  <path class="e" d="M860 365H1078"/><text class="l" x="970" y="356">x-merchant-key</text>
+  <path class="e" d="M1300 380H1378"/><text class="l" x="1340" y="371">차감</text>
+  <path class="e" d="M400 440V498"/><text class="l" x="442" y="474">남은 금액</text>
+
+  <!-- 응답 -->
+  <path class="p" d="M1080 405H862"/><text class="r" x="970" y="425">승인 번호 · 잔액</text>
+  <path class="p" d="M620 405H512"/><text class="r" x="565" y="425">승인 번호</text>
+  <path class="p" d="M290 405H172"/><text class="r" x="250" y="425">결제 결과</text>
+
+  <!-- 실패 처리 -->
+  <path d="M740 440V470" stroke="#dc2626" stroke-width="1.6"/><circle cx="740" cy="440" r="3" fill="#dc2626"/>
+  <text class="w" x="740" y="491" text-anchor="middle" font-weight="700">응답이 없으면 같은 주문 번호로 재시도</text>
+  <text class="w" x="740" y="511" text-anchor="middle">처음 승인 번호를 돌려받아 중복 차감 없음</text>
+  <path d="M510 560H542" stroke="#dc2626" stroke-width="1.6"/><circle cx="510" cy="560" r="3" fill="#dc2626"/>
+  <text class="w" x="550" y="555" font-weight="700">카드 결제 실패 · 가입 취소</text>
+  <text class="w" x="550" y="575">사용 취소로 포인트 복원</text>
+
+  <!-- 계약 -->
+  <path d="M620 678V688H1300V678" stroke="#9ca3af" stroke-width="1.4" fill="none"/>
+  <text x="960" y="713" font-size="14" fill="#374151" text-anchor="middle">두 서버 사이 요청과 응답은 packages/contract 의 zod 스키마로 양쪽이 같은 모양을 검사한다</text>
+</svg>

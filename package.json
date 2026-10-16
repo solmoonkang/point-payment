@@ -2,7 +2,7 @@
   "name": "point-payment",
   "private": true,
   "packageManager": "pnpm@9.15.4",
-  "description": "제로페이 스포츠상품권으로 킵페이 보험을 결제하는 로컬 시나리오 — 킵페이 서버 · 제로페이 모의 서버 · 연동 계약 모노레포",
+  "description": "제로페이 스포츠상품권으로 킵페이 보험을 결제하는 로컬 시나리오 — 킵페이 서버 · 제로페이 서버 · 연동 계약 모노레포",
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "check": "pnpm -r check",

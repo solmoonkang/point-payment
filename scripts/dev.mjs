@@ -1,4 +1,4 @@
-// 킵페이(5200)와 제로페이 모의(5100)를 한 터미널에서 함께 띄움. 한쪽이 끝나면 결제 흐름이 돌지 않으므로 둘 다 끔
+// 킵페이(5200)와 제로페이(5100)를 한 터미널에서 함께 띄움. 한쪽이 끝나면 결제 흐름이 돌지 않으므로 둘 다 끔
 import { spawn } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'

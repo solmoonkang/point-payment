@@ -1,4 +1,4 @@
-// 예시 7 의 틀. 메뉴 다섯은 그림 그대로이고 화면은 가입자 관리만 있음, 로고는 킵페이
+// 예시 7 의 틀. 메뉴 다섯은 그림 그대로이고 화면은 가입자 관리만 있음
 // 개발용 설정 · 로그아웃은 그림에 없음 (추가)
 import type { ReactNode } from 'react'
 import { Link } from 'wouter'
@@ -28,7 +28,7 @@ export function AdminFrame({ current, crumb, action, children }: { current: stri
   return (
     <div className="adm">
       <aside>
-        <img src="/images/keepay-logo.png" alt="킵페이 로고" style={{ width: 150, margin: '14px 0 14px 12px' }} />
+        <b className="logo">Keepay</b>
         {MENUS.map((menu) =>
           menu.href ? (
             <Link key={menu.label} href={menu.href} className={menu.href === current ? 'on' : ''}>

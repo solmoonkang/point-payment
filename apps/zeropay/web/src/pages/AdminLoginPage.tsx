@@ -19,7 +19,7 @@ export function AdminLoginPage({ onDone }: { onDone: () => void }) {
 
   return (
     <form className="login-box fieldset" onSubmit={submit}>
-      <h1>제로페이 모의 운영자</h1>
+      <h1>제로페이 운영자</h1>
       <p className="hint">상품권 지급 · 내역 · 오류 상황 설정</p>
       <label>아이디</label>
       <input value={adminId} onChange={(event) => setAdminId(event.target.value)} autoFocus />

@@ -64,7 +64,7 @@ export function AdminSubscribersPage() {
       <div className="flt">
         <div>
           <label>검색</label>
-          <input className="in" style={{ width: 370 }} placeholder="이름/연락처/비상연락처/주소/이메일/프로모션 코드 검색" value={draft.text} onChange={(event) => setDraft({ ...draft, text: event.target.value })} />
+          <input className="in" style={{ width: 370 }} placeholder="이름 · 연락처 · 비상 연락처 · 주소 · 이메일 · 프로모션 코드 검색" value={draft.text} onChange={(event) => setDraft({ ...draft, text: event.target.value })} />
         </div>
         <div>
           <label>결제 수단</label>
@@ -110,31 +110,33 @@ export function AdminSubscribersPage() {
               {openId === row.orderId && (
                 <tr className="detail">
                   <td colSpan={COLUMNS.length}>
-                    <dl>
-                      <dt>상태</dt>
-                      <dd>{STATUS_TEXT[row.status]}</dd>
-                      <dt>결제 수단</dt>
-                      <dd>{row.payMethod}</dd>
-                      <dt>포인트</dt>
-                      <dd>{won(row.pointAmount)}P</dd>
-                      <dt>카드</dt>
-                      <dd>{won(row.pgAmount)}원</dd>
-                      <dt>제로페이 승인 번호</dt>
-                      <dd>{row.approvalNo ?? '-'}</dd>
-                      <dt>결제금액</dt>
-                      <dd>{won(row.price)}원</dd>
-                      {row.failReason && (
-                        <>
-                          <dt>사유</dt>
-                          <dd>{row.failReason}</dd>
-                        </>
+                    <div className="dbox">
+                      <dl>
+                        <dt>상태</dt>
+                        <dd>{STATUS_TEXT[row.status]}</dd>
+                        <dt>결제 수단</dt>
+                        <dd>{row.payMethod}</dd>
+                        <dt>포인트</dt>
+                        <dd>{won(row.pointAmount)}P</dd>
+                        <dt>카드</dt>
+                        <dd>{won(row.pgAmount)}원</dd>
+                        <dt>제로페이 승인 번호</dt>
+                        <dd>{row.approvalNo ?? '-'}</dd>
+                        <dt>결제금액</dt>
+                        <dd>{won(row.price)}원</dd>
+                        {row.failReason && (
+                          <>
+                            <dt>사유</dt>
+                            <dd>{row.failReason}</dd>
+                          </>
+                        )}
+                      </dl>
+                      {(row.status === 'paid' || row.status === 'cancel_failed') && (
+                        <button className="go" onClick={() => void cancel(row)}>
+                          {row.status === 'paid' ? '가입 취소' : '취소 다시 시도'}
+                        </button>
                       )}
-                    </dl>
-                    {(row.status === 'paid' || row.status === 'cancel_failed') && (
-                      <button className="go" onClick={() => void cancel(row)}>
-                        {row.status === 'paid' ? '가입 취소' : '취소 다시 시도'}
-                      </button>
-                    )}
+                    </div>
                   </td>
                 </tr>
               )}

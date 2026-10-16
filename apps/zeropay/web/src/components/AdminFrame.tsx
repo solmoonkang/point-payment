@@ -19,7 +19,7 @@ export function AdminFrame({ current, crumb, action, children }: { current: stri
   return (
     <div className="adm">
       <aside>
-        <b className="zlogo">제로페이 모의</b>
+        <b className="zlogo">Zeropay</b>
         {MENUS.map((menu) => (
           <Link key={menu.href} href={menu.href} className={menu.href === current ? 'on' : ''}>
             <svg className="i">

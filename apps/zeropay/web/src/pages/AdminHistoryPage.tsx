@@ -49,7 +49,7 @@ export function AdminHistoryPage() {
       <div className="flt">
         <div>
           <label>검색</label>
-          <input className="in" style={{ width: 370 }} placeholder="승인 번호/회원/연락처/가맹점 검색" value={draft.text} onChange={(event) => setDraft({ ...draft, text: event.target.value })} />
+          <input className="in" style={{ width: 370 }} placeholder="승인 번호 · 회원 · 연락처 · 가맹점 검색" value={draft.text} onChange={(event) => setDraft({ ...draft, text: event.target.value })} />
         </div>
         <div>
           <label>구분</label>

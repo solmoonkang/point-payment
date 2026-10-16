@@ -1,4 +1,4 @@
-// 제안서에 없음 · 제로페이 회원 시작 화면 (튼튼몰을 흉내 낸 모의)
+// 제안서에 없음 · 제로페이 회원 시작 화면 (튼튼몰 화면을 본뜸)
 import { memberApi, useLoad, won } from '../api'
 import { LoginForm } from '../components/LoginForm'
 import { MallFrame } from '../components/MallFrame'

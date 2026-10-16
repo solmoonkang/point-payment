@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "description": "제로페이 모의 서버 — 회원 · 상품권 잔액 · 결제 승인 · 운영자 콘솔. 실제 연동이 열리면 지운다.",
+  "description": "제로페이 서버 — 회원 · 상품권 잔액 · 결제 승인 · 운영자 콘솔. 실제 연동이 열리면 지운다.",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "check": "tsc --noEmit && tsc --noEmit -p web",

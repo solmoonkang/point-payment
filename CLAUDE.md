@@ -9,7 +9,7 @@ Package layout and coding style follow the private repo `EPIGEXE/ouhve-cognitive
 | Path | What |
 |---|---|
 | `apps/keepay` | Keepay server + web, port 5200. Code meant to move into the real Keepay later. |
-| `apps/zeropay` | Zeropay stand-in server + web, port 5100. Deleted when the real integration opens. Screens must say 「제로페이 모의」. |
+| `apps/zeropay` | Zeropay stand-in server + web, port 5100. Deleted when the real integration opens. Call it 「제로페이」 everywhere (screens, docs, comments); never 「제로페이 모의」 or 「모의」. |
 | `packages/contract` | zod schemas and paths for the calls between the two companies. The only shared package. |
 | `contracts/v0.md` | Human-readable spec of the same calls. Change it together with `packages/contract`. |
 
